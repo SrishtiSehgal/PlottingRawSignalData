@@ -12,7 +12,7 @@ formatter = DateFormatter('%m/%d/%y')
 months = MonthLocator()
 days = DayLocator()
 all_filenames = [i for i in os.listdir() if '.csv' in i]
-fig, ax = plt.subplots(len(all_filenames),1, sharex=True)
+_, ax = plt.subplots(len(all_filenames),1, sharex=True)
 colours = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
 for index,filename in enumerate(all_filenames):
 	time, data, time_df = [], [], None
@@ -31,7 +31,7 @@ for index,filename in enumerate(all_filenames):
 	time_df = pd.to_datetime(pd.DataFrame(time).iloc[:,0])
 	
 	ax[index].plot_date(time_df, np.array(data).T, 
-		markersize=0.1, color=colours[index])
+		marker = '.', markersize = 3, color=colours[index])
 	ax[-1].xaxis.set_major_locator(months)
 	ax[-1].xaxis.set_major_formatter(DateFormatter('%m-%Y'))
 	ax[-1].xaxis.set_minor_locator(days)

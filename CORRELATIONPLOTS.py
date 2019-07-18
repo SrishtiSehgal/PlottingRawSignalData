@@ -1,18 +1,18 @@
 import pandas as pd
-import configuration as cfg
 import numpy as np
 import matplotlib.pyplot as plt
 import xlrd
 from fpdf import FPDF
 from scipy import stats
 
-dataNRC = pd.read_csv(cfg.NRC, header = None)
+NRC = input('first file name and path: ')+'\\'
+DND = input('second file name and path: ')+'\\'
+header = np.array(input('header names all separated by comma').split(','))
+ship_name = input('input name of ship')
+dataNRC = pd.read_csv(NRC, header = None)
 dataNRC = dataNRC.convert_objects(convert_numeric=True).as_matrix()
-dataDND = pd.read_csv(cfg.DND, header = None)
+dataDND = pd.read_csv(DND, header = None)
 dataDND = dataDND.convert_objects(convert_numeric=True).as_matrix()
-xl_workbook = xlrd.open_workbook(cfg.headers)
-x1_sheet = xl_workbook.sheet_by_index(0)
-header = np.array([x1_sheet.cell_value(rowx=0, colx=cx) for cx in range(x1_sheet.ncols)])
 
 def plotting2(x1,y1,filename,signal):
     plt.figure(figsize=(8,11))
@@ -35,7 +35,7 @@ placement = 1
 for i in range(dataNRC.shape[1]):
     x = np.array(dataNRC[:rows,i])
     y = np.array(dataDND[:rows,i])
-    n = plotting2(x,y,cfg.filename,'{}'.format(header[i]))
+    n = plotting2(x,y,ship_name,'{}'.format(header[i]))
     if placement==1:
         pdf.image(n,5,8,h=125)
         placement = 2
@@ -49,4 +49,4 @@ for i in range(dataNRC.shape[1]):
         placement=1
         pdf.image(n,100,155, h=125)
         pdf.add_page()
-pdf.output("Correlation Plots for filename " + cfg.filename + ".pdf", "F")
+pdf.output("Correlation Plots for filename " + ship_name + ".pdf", "F")
